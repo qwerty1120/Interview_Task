@@ -1,3 +1,4 @@
+//MemberRepository functions
 package com.example.yourssu.repository;
 
 import com.example.yourssu.domain.Member;

@@ -1,3 +1,4 @@
+//Member data 관련 functions
 package com.example.yourssu.repository;
 import com.example.yourssu.domain.Member;
 import org.springframework.stereotype.Repository;

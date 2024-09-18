@@ -1,3 +1,4 @@
+//어떤 것을 가지고있는지
 package com.example.yourssu.domain;
 
 public class Member {

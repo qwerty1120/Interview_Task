@@ -1,29 +1,29 @@
 package com.example.yourssu.service;
 
 import com.example.yourssu.domain.Member;
+import com.example.yourssu.repository.MemberRepository;
 import com.example.yourssu.repository.MemoryMemberRepository;
+import jakarta.transaction.Transactional;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
-class MemberServiceTest {
-    MemoryMemberRepository memoryMemberRepository;
+@SpringBootTest
+@Transactional //이거 안쓰면 db에 테스트 데이터 계속 남아있음
+    //쓸 경우 데이터를 db에 반영하지 않음
+class MemberServiceIntergrationTest {
+    @Autowired
+    MemberRepository memberRepository;
+    @Autowired
     MemberService memberService;
 
-    @BeforeEach
-    public void beforeEach() {
-        memoryMemberRepository = new MemoryMemberRepository();
-        memberService = new MemberService(memoryMemberRepository);
-    }
-    @AfterEach
-    public void afterEach() {
-        memoryMemberRepository.clearStore();
-    }
     @Test
     void join() {
         Member member = new Member();

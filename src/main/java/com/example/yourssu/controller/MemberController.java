@@ -1,3 +1,4 @@
+//회원 관리
 package com.example.yourssu.controller;
 import com.example.yourssu.domain.Member;
 import com.example.yourssu.service.MemberService;

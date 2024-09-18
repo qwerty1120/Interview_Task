@@ -1,6 +1,8 @@
+//어떤 repository에 있는 함수를 사용하는 지 연결하는 곳
 package com.example.yourssu;
 
 import com.example.yourssu.repository.JdbcMemberRepository;
+import com.example.yourssu.repository.JdbcTemplateMemberRepository;
 import com.example.yourssu.repository.MemberRepository;
 import com.example.yourssu.repository.MemoryMemberRepository;
 import com.example.yourssu.service.MemberService;
@@ -24,6 +26,8 @@ public class SpringConfig {
     }
     @Bean
     public MemberRepository memberRepository() {
-        return new JdbcMemberRepository(dataSource);
+        //return new MemoryMemberRepository();
+        //return new JdbcMemberRepository(dataSource);
+        return new JdbcTemplateMemberRepository(dataSource);
     }
 }
