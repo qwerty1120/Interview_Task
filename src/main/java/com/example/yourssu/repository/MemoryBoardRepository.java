@@ -2,12 +2,15 @@ package com.example.yourssu.repository;
 
 import com.example.yourssu.domain.Board;
 import com.example.yourssu.domain.Member;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.*;
 
 public class MemoryBoardRepository implements BoardRepository {
     private static Map<Long, Board> store = new HashMap<>();
     private static long sequence = 0L;
+    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     @Override
     public Board save(Board board) {
@@ -17,15 +20,16 @@ public class MemoryBoardRepository implements BoardRepository {
     }
 
     @Override
-    public List<Board> findBoards(String email, String password) {
+    public List<Board> findBoards(String email) {
         List<Board> result = new ArrayList<>();
         for (Board board : store.values()) {
-            if (board.getEmail().equals(email) && board.getPassword().equals(password)) {
+            if (board.getEmail().equals(email)) {
                 result.add(board);
             }
         }
         return result;
     }
+
 
     @Override
     public List<Board> findAll() {
@@ -45,6 +49,7 @@ public class MemoryBoardRepository implements BoardRepository {
     public Optional<Board> findById(Long id) {
         return Optional.ofNullable(store.get(id));
     }
+
     @Override
     public void clearStore() {
         store.clear();

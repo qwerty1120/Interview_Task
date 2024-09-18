@@ -65,7 +65,6 @@ class MemberServiceTest {
 
         // When
         MemberResponse userResponse = memberService.registerMember(userRequest);
-
         // Then
         assertThat(userResponse.getEmail()).isEqualTo("test@example.com");
         assertThat(userResponse.getUsername()).isEqualTo("testuser");

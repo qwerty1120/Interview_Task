@@ -1,6 +1,8 @@
 package com.example.yourssu.service;
 
+import com.example.yourssu.domain.Board;
 import com.example.yourssu.domain.Member;
+import com.example.yourssu.dto.BoardResponse;
 import com.example.yourssu.dto.MemberRequest;
 import com.example.yourssu.dto.MemberResponse;
 import com.example.yourssu.repository.MemberRepository;
@@ -49,6 +51,7 @@ public class MemberService {
         member.setPassword(memberRequest.getPassword());
         member.setName(memberRequest.getUsername());
 
+        Member savedMember = memberRepository.save(member);
         // 비즈니스 로직 처리 후 UserResponse 생성
         MemberResponse userResponse = new MemberResponse();
         userResponse.setEmail(member.getEmail());

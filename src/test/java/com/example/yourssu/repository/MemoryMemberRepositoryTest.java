@@ -4,6 +4,7 @@ import com.example.yourssu.domain.Member;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.List;
 import java.util.Optional;
@@ -51,5 +52,10 @@ class MemoryMemberRepositoryTest {
 
         List<Member> members = repository.findAll();
         assertThat(members.size()).isEqualTo(2);
+    }
+    private String encryptPassword(String password) {
+        // 비밀번호 암호화 (예: BCryptPasswordEncoder 사용)
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        return passwordEncoder.encode(password);
     }
 }

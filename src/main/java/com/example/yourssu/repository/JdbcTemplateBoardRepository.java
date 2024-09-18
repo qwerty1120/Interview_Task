@@ -40,11 +40,10 @@ public class JdbcTemplateBoardRepository implements BoardRepository{
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         return passwordEncoder.encode(password);
     }
-
     @Override
-    public List<Board> findBoards(String email, String password) {
-        String sql = "SELECT id, email, password, content, title FROM board WHERE email = ? AND password = ?";
-        return jdbcTemplate.query(sql, new Object[]{email, password}, boardRowMapper());
+    public List<Board> findBoards(String email) {
+        String sql = "SELECT id, email, password, content, title FROM board WHERE email = ?";
+        return jdbcTemplate.query(sql, new Object[]{email}, boardRowMapper());
     }
     private RowMapper<Board> boardRowMapper() {
         return (rs, rowNum) -> {
