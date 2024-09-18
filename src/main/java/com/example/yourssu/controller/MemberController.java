@@ -1,12 +1,17 @@
 //회원 관리
 package com.example.yourssu.controller;
 import com.example.yourssu.domain.Member;
+import com.example.yourssu.dto.MemberRequest;
+import com.example.yourssu.dto.MemberResponse;
 import com.example.yourssu.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 
@@ -28,7 +33,8 @@ public class MemberController {
     public String create(MemberForm form){
         Member member = new Member();
         member.setName(form.getName());
-
+        member.setEmail(form.getEmail());
+        member.setPassword(form.getPassword());
         memberService.join(member);
 
         return "redirect:/";
@@ -40,4 +46,5 @@ public class MemberController {
         model.addAttribute("members", members);
         return "members/memberList";
     }
+
 }

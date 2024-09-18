@@ -9,11 +9,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class YourssuController {
-    @GetMapping("jin")
-    public String hello(Model model) {
-        model.addAttribute("data", "hello!!");
-        return "hello";
-    }
+
     @GetMapping("hello-mvc")
     public String helloMvc(@RequestParam(value = "name", required = false) String name, Model model) {
         model.addAttribute("name", name);

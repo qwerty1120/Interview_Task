@@ -1,17 +1,11 @@
-package com.example.yourssu.controller;
+package com.example.yourssu.dto;
 
-public class MemberForm {
-    private String name;
+public class MemberRequest {
     private String email;
+    private String username;
     private String password;
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
+    // Getters and Setters
 
     public String getEmail() {
         return email;
@@ -19,6 +13,14 @@ public class MemberForm {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {

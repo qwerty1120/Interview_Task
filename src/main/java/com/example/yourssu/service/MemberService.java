@@ -1,6 +1,8 @@
 package com.example.yourssu.service;
 
 import com.example.yourssu.domain.Member;
+import com.example.yourssu.dto.MemberRequest;
+import com.example.yourssu.dto.MemberResponse;
 import com.example.yourssu.repository.MemberRepository;
 import com.example.yourssu.repository.MemoryMemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +29,7 @@ public class MemberService {
     }
 
     private void validateDuplicateMember(Member member) {
-        memberRepository.findByName(member.getName())
+        memberRepository.findByEmail(member.getEmail())
             .ifPresent(m->{
             throw new IllegalStateException("already exists");
         });
@@ -38,5 +40,20 @@ public class MemberService {
     }
     public Optional<Member> findOne(Long id) {
         return memberRepository.findById(id);
+    }
+
+    public MemberResponse registerMember(MemberRequest memberRequest) {
+        // 도메인 모델로 변환 및 저장 로직
+        Member member = new Member();
+        member.setEmail(memberRequest.getEmail());
+        member.setPassword(memberRequest.getPassword());
+        member.setName(memberRequest.getUsername());
+
+        // 비즈니스 로직 처리 후 UserResponse 생성
+        MemberResponse userResponse = new MemberResponse();
+        userResponse.setEmail(member.getEmail());
+        userResponse.setUsername(member.getName());
+
+        return userResponse;
     }
 }

@@ -1,6 +1,8 @@
 package com.example.yourssu.service;
 
 import com.example.yourssu.domain.Member;
+import com.example.yourssu.dto.MemberRequest;
+import com.example.yourssu.dto.MemberResponse;
 import com.example.yourssu.repository.MemoryMemberRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
@@ -52,5 +54,20 @@ class MemberServiceTest {
 
     @Test
     void findOne() {
+    }
+    @Test
+    void testRegisterMember() {
+        // Given
+        MemberRequest userRequest = new MemberRequest();
+        userRequest.setEmail("test@example.com");
+        userRequest.setPassword("password123");
+        userRequest.setUsername("testuser");
+
+        // When
+        MemberResponse userResponse = memberService.registerMember(userRequest);
+
+        // Then
+        assertThat(userResponse.getEmail()).isEqualTo("test@example.com");
+        assertThat(userResponse.getUsername()).isEqualTo("testuser");
     }
 }
