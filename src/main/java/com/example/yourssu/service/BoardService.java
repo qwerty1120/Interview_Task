@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class BoardService {
@@ -32,6 +33,9 @@ public class BoardService {
     }
     public List<Board> findBoardByTitle(String title) {
         return boardRepository.findByTitle(title);
+    }
+    public Optional<Board> findById(Long id) {
+        return boardRepository.findById(id);
     }
 
 }

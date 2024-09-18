@@ -12,6 +12,7 @@ import javax.sql.DataSource;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public class JdbcTemplateBoardRepository implements BoardRepository{
     private final JdbcTemplate jdbcTemplate;
@@ -65,6 +66,16 @@ public class JdbcTemplateBoardRepository implements BoardRepository{
     public List<Board> findByTitle(String Title) {
         String sql = "SELECT id, email, password, content, title FROM board WHERE title = ?";
         return jdbcTemplate.query(sql, new Object[]{Title}, boardRowMapper());
+    }
+
+    @Override
+    public Optional<Board> findById(Long id) {
+        String sql = "SELECT * FROM board WHERE id = ?";
+
+        // RowMapper를 사용하여 결과를 Board 객체로 변환
+        return jdbcTemplate.query(sql, new Object[]{id}, boardRowMapper())
+                .stream()
+                .findFirst();  // 결과 리스트에서 첫 번째 요소를 Optional로 변환
     }
 
     @Override

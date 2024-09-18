@@ -42,6 +42,10 @@ public class MemoryBoardRepository implements BoardRepository {
         return result;
     }
     @Override
+    public Optional<Board> findById(Long id) {
+        return Optional.ofNullable(store.get(id));
+    }
+    @Override
     public void clearStore() {
         store.clear();
     }

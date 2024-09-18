@@ -1,0 +1,37 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>게시물 상세보기</title>
+</head>
+<body>
+
+<div class="container">
+    <h2>게시물 상세 정보</h2>
+    <div>
+        <table>
+            <tr>
+                <th>게시물 ID</th>
+                <td th:text="${board.id}"></td>
+            </tr>
+            <tr>
+                <th>제목</th>
+                <td th:text="${board.title}"></td>
+            </tr>
+            <tr>
+                <th>작성자 이메일</th>
+                <td th:text="${board.email}"></td>
+            </tr>
+            <tr>
+                <th>내용</th>
+                <td th:text="${board.content}"></td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- 뒤로가기 버튼 -->
+    <a href="/boards">게시판 목록으로 돌아가기</a>
+</div>
+
+</body>
+</html>

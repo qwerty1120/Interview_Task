@@ -11,5 +11,6 @@ public interface BoardRepository {
     List<Board> findBoards(String email, String password);
     List<Board> findAll();
     List<Board> findByTitle(String Title);
+    Optional<Board> findById(Long id);
     void clearStore();
 }
