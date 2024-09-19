@@ -35,6 +35,7 @@ public class MemberService {
 
     public void deleteMember(String email, String password) {
         Member member = memberRepository.findByEmail(email)
+
                 .orElseThrow(() -> new IllegalArgumentException("Member not found"));
 
         if (!passwordEncoder.matches(password, member.getPassword())) {
@@ -47,6 +48,25 @@ public class MemberService {
         }
         memberRepository.delete(member);
     }
+//    public MemberResponse deleteMember(String email, String password) {
+//        Member member = memberRepository.findByEmail(email)
+//
+//                .orElseThrow(() -> new IllegalArgumentException("Member not found"));
+//
+//        if (!passwordEncoder.matches(password, member.getPassword())) {
+//            throw new IllegalStateException("Unauthorized to delete this member");
+//        }
+//        List<Board> boards = boardRepository.findBoards(email);
+//        for (Board board : boards) {
+//            commentRepository.deleteByBoardId(board.getId());
+//            boardRepository.deleteById(board.getId());
+//        }
+//        memberRepository.delete(member);
+//        MemberResponse response = new MemberResponse();
+//        response.setUsername(member.getName());
+//        response.setEmail(member.getEmail());
+//        return response;
+//    }
 
     private void validateDuplicateMember(String email) {
         memberRepository.findByEmail(email)

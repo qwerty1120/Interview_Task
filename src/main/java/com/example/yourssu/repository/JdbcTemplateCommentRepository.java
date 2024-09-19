@@ -68,7 +68,7 @@ public class JdbcTemplateCommentRepository implements CommentRepository {
             Comment comment = new Comment();
             comment.setId(rs.getLong("id"));
             comment.setEmail(rs.getString("email"));
-            comment.setPassword(encryptPassword(rs.getString("password")));
+            comment.setPassword(rs.getString("password"));
             comment.setContent(rs.getString("content"));
 
             Long boardId = rs.getLong("board_id");

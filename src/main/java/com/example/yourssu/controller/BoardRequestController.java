@@ -30,7 +30,7 @@ public class BoardRequestController {
         return ResponseEntity.ok(updatedBoard);
     }
     @DeleteMapping("/{id}")
-    public ResponseEntity<BoardResponse> deleteBoard(
+    public ResponseEntity<Void> deleteBoard(
             @PathVariable("id") Long boardId,
             @RequestBody BoardRequest boardRequest) {
 
@@ -38,7 +38,7 @@ public class BoardRequestController {
         String email = boardRequest.getEmail();
         String password = boardRequest.getPassword();
 
-        BoardResponse response = boardService.deleteBoard(boardId, email, password);
-        return ResponseEntity.ok(response);
+        boardService.deleteBoard(boardId, email, password);
+        return ResponseEntity.noContent().build();
     }
 }

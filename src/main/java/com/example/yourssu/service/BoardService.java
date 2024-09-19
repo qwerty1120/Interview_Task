@@ -112,7 +112,7 @@ public class BoardService {
 
         return response;
     }
-    public BoardResponse deleteBoard(Long boardId, String email, String password) {
+    public void deleteBoard(Long boardId, String email, String password) {
         Board board = boardRepository.findById(boardId)
                 .orElseThrow(() -> new IllegalArgumentException("Board not found"));
 
@@ -123,15 +123,5 @@ public class BoardService {
 
         // Delete all comments associated with the board
         commentRepository.deleteByBoardId(boardId);
-
-        // Delete the board
-        boardRepository.deleteById(boardId);
-        BoardResponse response = new BoardResponse();
-        response.setArticleId(board.getId());
-        response.setEmail(board.getEmail());
-        response.setTitle(board.getTitle());
-        response.setContent("This board has been deleted.");
-
-        return response;
     }
 }
