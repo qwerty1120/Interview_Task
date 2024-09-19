@@ -10,45 +10,51 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import javax.sql.DataSource;
 
 @Configuration
 public class SpringConfig {
 
-    private DataSource dataSource;
+    private final DataSource dataSource;
 
     @Autowired
     public SpringConfig(DataSource dataSource) {
         this.dataSource = dataSource;
     }
+
     @Bean
     public MemberService memberService(BCryptPasswordEncoder passwordEncoder) {
         return new MemberService(memberRepository(), boardRepository(), commentRepository(), passwordEncoder);
     }
+
     @Bean
     public MemberRepository memberRepository() {
         //return new MemoryMemberRepository();
         //return new JdbcMemberRepository(dataSource);
         return new JdbcTemplateMemberRepository(dataSource);
     }
+
     @Bean
     public CommentService commentService() {
         return new CommentService(boardRepository(), commentRepository());
     }
+
     @Bean
     public CommentRepository commentRepository() {
         return new JdbcTemplateCommentRepository(dataSource);
     }
+
     @Bean
     public BoardService boardService() {
         return new BoardService(boardRepository(), commentRepository(), memberRepository());
     }
+
     @Bean
     public BoardRepository boardRepository() {
         return new JdbcTemplateBoardRepository(dataSource);
     }
+
     @Bean
     public GlobalExceptionHandler globalExceptionHandler() {
         return new GlobalExceptionHandler();

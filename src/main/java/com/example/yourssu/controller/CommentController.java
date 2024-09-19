@@ -1,7 +1,5 @@
 package com.example.yourssu.controller;
 
-import com.example.yourssu.domain.Board;
-import com.example.yourssu.domain.Comment;
 import com.example.yourssu.dto.CommentRequest;
 import com.example.yourssu.dto.CommentResponse;
 import com.example.yourssu.service.CommentService;
@@ -40,10 +38,11 @@ public class CommentController {
 
         return ResponseEntity.ok(response);
     }
+
     @DeleteMapping("/{id}/comments/{commentId}")
     public ResponseEntity<Void> deleteComment(
             @PathVariable("id") Long boardId,
-            @PathVariable ("commentId")Long commentId,
+            @PathVariable("commentId") Long commentId,
             @RequestBody CommentRequest request) {
         String email = request.getEmail();
         String password = request.getPassword();

@@ -1,11 +1,8 @@
 package com.example.yourssu.service;
 
 import com.example.yourssu.domain.Board;
-import com.example.yourssu.domain.Member;
 import com.example.yourssu.dto.BoardRequest;
 import com.example.yourssu.dto.BoardResponse;
-import com.example.yourssu.dto.MemberRequest;
-import com.example.yourssu.dto.MemberResponse;
 import com.example.yourssu.repository.BoardRepository;
 import com.example.yourssu.repository.CommentRepository;
 import com.example.yourssu.repository.MemberRepository;
@@ -24,7 +21,7 @@ public class BoardService {
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     @Autowired
-    public BoardService(BoardRepository boardRepository, CommentRepository commentRepository,MemberRepository memberRepository) {
+    public BoardService(BoardRepository boardRepository, CommentRepository commentRepository, MemberRepository memberRepository) {
         this.boardRepository = boardRepository;
         this.memberRepository = memberRepository;
         this.commentRepository = commentRepository;
@@ -36,6 +33,7 @@ public class BoardService {
             throw new IllegalStateException("No member with email: " + email);
         }
     }
+
     private void validateDuplicateBoard(String email, String title) {
         List<Board> boards = boardRepository.findBoards(email);
         boolean isDuplicate = boards.stream()
@@ -51,15 +49,19 @@ public class BoardService {
     public List<Board> findAllBoards() {
         return boardRepository.findAll();
     }
+
     public List<Board> findBoardsByEmailAndPassword(String email, String password) {
         return boardRepository.findBoards(email);
     }
+
     public List<Board> findBoardByTitle(String title) {
         return boardRepository.findByTitle(title);
     }
+
     public Optional<Board> findById(Long id) {
         return boardRepository.findById(id);
     }
+
     public BoardResponse registerBoardCreate(BoardRequest boardRequest) {
         validateDuplicateMemberEmail(boardRequest.getEmail());
         validateDuplicateBoard(boardRequest.getEmail(), boardRequest.getTitle());
@@ -81,6 +83,7 @@ public class BoardService {
 
         return boardResponse;
     }
+
     public BoardResponse updateBoard(Long id, BoardRequest boardRequest) {
         // 게시물 조회
         Optional<Board> boardOptional = boardRepository.findById(id);
@@ -112,6 +115,7 @@ public class BoardService {
 
         return response;
     }
+
     public void deleteBoard(Long boardId, String email, String password) {
         Board board = boardRepository.findById(boardId)
                 .orElseThrow(() -> new IllegalArgumentException("Board not found"));

@@ -1,16 +1,17 @@
 //Member data 관련 functions
 package com.example.yourssu.repository;
+
 import com.example.yourssu.domain.Member;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.*;
 
 @Repository
 public class MemoryMemberRepository implements MemberRepository {
 
-    private static Map<Long, Member> store = new HashMap<>();
+    private static final Map<Long, Member> store = new HashMap<>();
     private static long sequence = 0L;
+
     @Override
     public Member save(Member member) {
         member.setId(++sequence);
@@ -26,14 +27,14 @@ public class MemoryMemberRepository implements MemberRepository {
     @Override
     public Optional<Member> findByName(String name) {
         return store.values().stream()
-                .filter(member->member.getName().equals(name))
+                .filter(member -> member.getName().equals(name))
                 .findAny();
     }
 
     @Override
     public Optional<Member> findByEmail(String email) {
         return store.values().stream()
-                .filter(member->member.getEmail().equals(email))
+                .filter(member -> member.getEmail().equals(email))
                 .findAny();
     }
 

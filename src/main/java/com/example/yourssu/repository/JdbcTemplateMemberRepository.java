@@ -2,7 +2,6 @@
 package com.example.yourssu.repository;
 
 import com.example.yourssu.domain.Member;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -10,8 +9,6 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.sql.DataSource;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,6 +22,7 @@ public class JdbcTemplateMemberRepository implements MemberRepository {
     public JdbcTemplateMemberRepository(DataSource dataSource) {
         jdbcTemplate = new JdbcTemplate(dataSource);
     }
+
     @Override
     public Member save(Member member) {
         SimpleJdbcInsert jdbcInsert = new SimpleJdbcInsert(jdbcTemplate);
@@ -34,20 +32,22 @@ public class JdbcTemplateMemberRepository implements MemberRepository {
         parameters.put("name", member.getName());
         parameters.put("email", member.getEmail());
         //parameters.put("password", member.getPassword());
-        parameters.put("password",encryptPassword(member.getPassword()));
+        parameters.put("password", encryptPassword(member.getPassword()));
 
         Number key = jdbcInsert.executeAndReturnKey(new MapSqlParameterSource(parameters));
         member.setId(key.longValue());
         return member;
     }
+
     private String encryptPassword(String password) {
         // 비밀번호 암호화 (예: BCryptPasswordEncoder 사용)
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         return passwordEncoder.encode(password);
     }
+
     @Override
     public Optional<Member> findById(Long id) {
-        List<Member> result =  jdbcTemplate.query("select * from member where id = ?", memberRowMapper(), id);
+        List<Member> result = jdbcTemplate.query("select * from member where id = ?", memberRowMapper(), id);
         return result.stream().findAny();
     }
 
@@ -61,6 +61,7 @@ public class JdbcTemplateMemberRepository implements MemberRepository {
             return member;
         };
     }
+
     @Override
     public Optional<Member> findByName(String name) {
         List<Member> result = jdbcTemplate.query("select * from member where name = ?", memberRowMapper(), name);

@@ -1,23 +1,19 @@
 package com.example.yourssu.controller;
 
 import com.example.yourssu.domain.Board;
-import com.example.yourssu.domain.Member;
-import com.example.yourssu.dto.BoardRequest;
-import com.example.yourssu.dto.BoardResponse;
 import com.example.yourssu.service.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 import java.util.Optional;
 
 @Controller
 public class BoardController {
-    private BoardService boardService;
+    private final BoardService boardService;
 
     @Autowired
     public BoardController(BoardService boardService) {
@@ -25,12 +21,12 @@ public class BoardController {
     }
 
     @GetMapping("/boards/new")
-    public String cearteBoardForm(){
+    public String createBoardForm() {
         return "boards/createBoardForm";
     }
 
     @GetMapping("/boards")
-    public String list(Model model){
+    public String list(Model model) {
         List<Board> boards = boardService.findAllBoards();
         model.addAttribute("boards", boards);
         return "boards/boardList";

@@ -5,7 +5,7 @@
     <!--    <link rel="stylesheet" th:href="@{/css/home.css}">-->
 </head>
 <body>
-<div class = "container">
+<div class="container">
     <div>
         <table>
             <thead>
@@ -15,14 +15,15 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:each = "member : ${members}">
-                <td th:text = "${member.id}"></td>
-                <td th:text = "${member.name}"></td>
+            <tr th:each="member : ${members}">
+                <td th:text="${member.id}"></td>
+                <td th:text="${member.name}"></td>
             </tr>
             </tbody>
         </table>
     </div>
-</div><!-/container->
+</div>
+<!-/container->
 
 </body>
 </html>

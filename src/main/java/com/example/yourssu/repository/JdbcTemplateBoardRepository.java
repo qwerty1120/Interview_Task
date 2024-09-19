@@ -1,7 +1,6 @@
 package com.example.yourssu.repository;
 
 import com.example.yourssu.domain.Board;
-import com.example.yourssu.domain.Member;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -14,12 +13,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-public class JdbcTemplateBoardRepository implements BoardRepository{
+public class JdbcTemplateBoardRepository implements BoardRepository {
     private final JdbcTemplate jdbcTemplate;
 
     public JdbcTemplateBoardRepository(DataSource dataSource) {
         jdbcTemplate = new JdbcTemplate(dataSource);
     }
+
     @Override
     public Board save(Board board) {
         SimpleJdbcInsert jdbcInsert = new SimpleJdbcInsert(jdbcTemplate);
@@ -30,21 +30,24 @@ public class JdbcTemplateBoardRepository implements BoardRepository{
         parameters.put("title", board.getTitle());
         parameters.put("content", board.getContent());
         //parameters.put("password", member.getPassword());
-        parameters.put("password",encryptPassword(board.getPassword()));
+        parameters.put("password", encryptPassword(board.getPassword()));
         Number key = jdbcInsert.executeAndReturnKey(new MapSqlParameterSource(parameters));
         board.setId(key.longValue());
         return board;
     }
+
     private String encryptPassword(String password) {
         // 비밀번호 암호화 (예: BCryptPasswordEncoder 사용)
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         return passwordEncoder.encode(password);
     }
+
     @Override
     public List<Board> findBoards(String email) {
         String sql = "SELECT id, email, password, content, title FROM board WHERE email = ?";
         return jdbcTemplate.query(sql, new Object[]{email}, boardRowMapper());
     }
+
     private RowMapper<Board> boardRowMapper() {
         return (rs, rowNum) -> {
             Board board = new Board();
@@ -56,6 +59,7 @@ public class JdbcTemplateBoardRepository implements BoardRepository{
             return board;
         };
     }
+
     @Override
     public List<Board> findAll() {
         return jdbcTemplate.query("select * from board", boardRowMapper());

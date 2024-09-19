@@ -9,8 +9,6 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.sql.DataSource;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -78,6 +76,7 @@ public class JdbcTemplateCommentRepository implements CommentRepository {
             return comment;
         };
     }
+
     private String encryptPassword(String password) {
         // 비밀번호 암호화 (예: BCryptPasswordEncoder 사용)
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
@@ -85,7 +84,8 @@ public class JdbcTemplateCommentRepository implements CommentRepository {
     }
 
     @Override
-    public void clearStore() {}
+    public void clearStore() {
+    }
 
     @Override
     public void deleteById(Long id) {

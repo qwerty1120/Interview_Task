@@ -9,23 +9,29 @@ public class CommentRequest {
     @NotBlank(message = "password cannot be blank")
     private String password;
 
-    public CommentRequest() {}
+    public CommentRequest() {
+    }
 
     public String getContent() {
         return content;
     }
+
     public void setContent(String content) {
         this.content = content;
     }
+
     public String getEmail() {
         return email;
     }
+
     public void setEmail(String email) {
         this.email = email;
     }
+
     public String getPassword() {
         return password;
     }
+
     public void setPassword(String password) {
         this.password = password;
     }

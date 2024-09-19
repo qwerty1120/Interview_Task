@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Edit Board</title>
+</head>
+<body>
+<div class="container">
+    <h2>Edit Board</h2>
+    <form action="#" method="post" th:action="'/boards/' + ${board.id}" th:object="${board}">
+        <input name="_method" type="hidden" value="put"/> <!-- Hidden field for PUT method -->
+
+        <div>
+            <label for="email">Email:</label>
+            <input id="email" name="email" required th:value="${board.email}" type="email"/>
+        </div>
+        <div>
+            <label for="password">Password:</label>
+            <input id="password" name="password" required type="password"/>
+        </div>
+        <div>
+            <label for="title">Title:</label>
+            <input id="title" name="title" required th:value="${board.title}" type="text"/>
+        </div>
+        <div>
+            <label for="content">Content:</label>
+            <textarea id="content" name="content" required th:text="${board.content}"></textarea>
+        </div>
+
+        <button type="submit">Update Board</button>
+    </form>
+</div>
+</body>
+</html>

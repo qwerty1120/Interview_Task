@@ -1,10 +1,10 @@
 package com.example.yourssu;
 //자동 로그인 페이지 억제
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
@@ -18,7 +18,7 @@ public class SecurityConfig {
 
                 // 요청 경로별 권한 설정
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/","/register", "/api/users/register", "/**").permitAll()  // 인증 없이 접근 허용
+                        .requestMatchers("/", "/register", "/api/users/register", "/**").permitAll()  // 인증 없이 접근 허용
                         .anyRequest().authenticated()  // 나머지 요청은 인증 필요
                 )
 

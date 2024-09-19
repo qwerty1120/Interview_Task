@@ -1,21 +1,22 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html>
 <head lang="en">
     <meta charset="utf-8">
     <!--    <link rel="stylesheet" th:href="@{/css/home.css}">-->
 </head>
 <body>
-<div class = "container">
-    <form action = "/members/new" method="post">
-        <div class = "form-group">
+<div class="container">
+    <form action="/members/new" method="post">
+        <div class="form-group">
             <label for="name">이름</label>
-            <input type = "text" id = "email" name = "email" placeholder="이메일을 입력하세요">
-            <input type = "text" id = "password" name = "password" placeholder="비밀번호를 입력하세요">
-            <input type = "text" id = "name" name = "name" placeholder="이름을 입력하세요">
+            <input id="email" name="email" placeholder="이메일을 입력하세요" type="text">
+            <input id="password" name="password" placeholder="비밀번호를 입력하세요" type="text">
+            <input id="name" name="name" placeholder="이름을 입력하세요" type="text">
         </div>
         <button type="submit">등록</button>
     </form>
-</div><!-/container->
+</div>
+<!-/container->
 
 </body>
 </html>

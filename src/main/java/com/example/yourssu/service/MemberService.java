@@ -2,13 +2,11 @@ package com.example.yourssu.service;
 
 import com.example.yourssu.domain.Board;
 import com.example.yourssu.domain.Member;
-import com.example.yourssu.dto.BoardResponse;
 import com.example.yourssu.dto.MemberRequest;
 import com.example.yourssu.dto.MemberResponse;
 import com.example.yourssu.repository.BoardRepository;
 import com.example.yourssu.repository.CommentRepository;
 import com.example.yourssu.repository.MemberRepository;
-import com.example.yourssu.repository.MemoryMemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -70,14 +68,15 @@ public class MemberService {
 
     private void validateDuplicateMember(String email) {
         memberRepository.findByEmail(email)
-            .ifPresent(m->{
-            throw new IllegalStateException("already exists");
-        });
+                .ifPresent(m -> {
+                    throw new IllegalStateException("already exists");
+                });
     }
 
     public List<Member> findMembers() {
         return memberRepository.findAll();
     }
+
     public Optional<Member> findOne(Long id) {
         return memberRepository.findById(id);
     }

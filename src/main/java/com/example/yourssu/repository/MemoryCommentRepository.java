@@ -1,14 +1,13 @@
 package com.example.yourssu.repository;
 
 import com.example.yourssu.domain.Comment;
-import com.example.yourssu.domain.Comment;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 public class MemoryCommentRepository implements CommentRepository {
-    private static Map<Long, Comment> store = new HashMap<>();
+    private static final Map<Long, Comment> store = new HashMap<>();
     private static long sequence = 0L;
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
@@ -23,6 +22,7 @@ public class MemoryCommentRepository implements CommentRepository {
     public List<Comment> findAll() {
         return new ArrayList<>(store.values());
     }
+
     @Override
     public List<Comment> findByBoardId(Long boardId) {
         List<Comment> result = new ArrayList<>();
@@ -33,6 +33,7 @@ public class MemoryCommentRepository implements CommentRepository {
         }
         return result;
     }
+
     @Override
     public Optional<Comment> findById(Long id) {
         return Optional.ofNullable(store.get(id));

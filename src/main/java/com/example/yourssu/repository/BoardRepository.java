@@ -8,10 +8,16 @@ import java.util.Optional;
 
 public interface BoardRepository {
     Board save(Board board);
+
     List<Board> findBoards(String email);
+
     List<Board> findAll();
+
     List<Board> findByTitle(String Title);
+
     Optional<Board> findById(Long id);
+
     void deleteById(Long id);
+
     void clearStore();
 }

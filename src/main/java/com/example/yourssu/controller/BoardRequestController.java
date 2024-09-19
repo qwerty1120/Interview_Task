@@ -2,12 +2,8 @@ package com.example.yourssu.controller;
 
 import com.example.yourssu.dto.BoardRequest;
 import com.example.yourssu.dto.BoardResponse;
-import com.example.yourssu.dto.MemberRequest;
-import com.example.yourssu.dto.MemberResponse;
 import com.example.yourssu.service.BoardService;
-import com.example.yourssu.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,6 +25,7 @@ public class BoardRequestController {
         BoardResponse updatedBoard = boardService.updateBoard(id, boardRequest);
         return ResponseEntity.ok(updatedBoard);
     }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteBoard(
             @PathVariable("id") Long boardId,

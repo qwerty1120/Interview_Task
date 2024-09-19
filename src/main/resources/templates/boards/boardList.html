@@ -1,34 +1,35 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head lang="en">
-  <meta charset="utf-8">
-  <!--    <link rel="stylesheet" th:href="@{/css/home.css}">-->
+    <meta charset="utf-8">
+    <!--    <link rel="stylesheet" th:href="@{/css/home.css}">-->
 </head>
 <body>
-<div class = "container">
-  <div>
-    <table>
-      <thead>
-      <tr>
-        <th>#</th>
-        <th>이름</th>
-        <th>이메일</th>
-        <th>게시물 보기</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr th:each = "board : ${boards}">
-        <td th:text = "${board.id}"></td>
-        <td th:text = "${board.title}"></td>
-        <td th:text = "${board.email}"></td>
-        <td>
-          <a th:href="@{|/boards/${board.id}|}" th:text="${board.title}"></a>
-        </td>
-      </tr>
-      </tbody>
-    </table>
-  </div>
-</div><!-/container->
+<div class="container">
+    <div>
+        <table>
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>이름</th>
+                <th>이메일</th>
+                <th>게시물 보기</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="board : ${boards}">
+                <td th:text="${board.id}"></td>
+                <td th:text="${board.title}"></td>
+                <td th:text="${board.email}"></td>
+                <td>
+                    <a th:href="@{|/boards/${board.id}|}" th:text="${board.title}"></a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<!-/container->
 
 </body>
 </html>

@@ -6,7 +6,6 @@ import com.example.yourssu.dto.CommentRequest;
 import com.example.yourssu.dto.CommentResponse;
 import com.example.yourssu.repository.BoardRepository;
 import com.example.yourssu.repository.CommentRepository;
-import com.example.yourssu.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -51,6 +50,7 @@ public class CommentService {
 
         return response;
     }
+
     public CommentResponse updateComment(Long id, CommentRequest commentRequest) {
         // 댓글 조회
         Comment comment = commentRepository.findById(id)

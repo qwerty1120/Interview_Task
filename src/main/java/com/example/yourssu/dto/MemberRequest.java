@@ -6,7 +6,8 @@ public class MemberRequest {
     private String password;
 
     // Getters and Setters
-    public MemberRequest() {}
+    public MemberRequest() {
+    }
 
     public String getEmail() {
         return email;
