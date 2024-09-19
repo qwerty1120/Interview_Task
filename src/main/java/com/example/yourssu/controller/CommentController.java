@@ -40,4 +40,14 @@ public class CommentController {
 
         return ResponseEntity.ok(response);
     }
+    @DeleteMapping("/{id}/comments/{commentId}")
+    public ResponseEntity<Void> deleteComment(
+            @PathVariable("id") Long boardId,
+            @PathVariable ("commentId")Long commentId,
+            @RequestBody CommentRequest request) {
+        String email = request.getEmail();
+        String password = request.getPassword();
+        commentService.deleteComment(commentId, email, password);
+        return ResponseEntity.noContent().build(); // 204 No Content 응답
+    }
 }

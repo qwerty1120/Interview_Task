@@ -9,6 +9,7 @@ import com.example.yourssu.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import javax.sql.DataSource;
@@ -23,8 +24,8 @@ public class SpringConfig {
         this.dataSource = dataSource;
     }
     @Bean
-    public MemberService memberService() {
-        return new MemberService(memberRepository());
+    public MemberService memberService(BCryptPasswordEncoder passwordEncoder) {
+        return new MemberService(memberRepository(), boardRepository(), commentRepository(), passwordEncoder);
     }
     @Bean
     public MemberRepository memberRepository() {
@@ -33,8 +34,16 @@ public class SpringConfig {
         return new JdbcTemplateMemberRepository(dataSource);
     }
     @Bean
+    public CommentService commentService() {
+        return new CommentService(boardRepository(), commentRepository());
+    }
+    @Bean
+    public CommentRepository commentRepository() {
+        return new JdbcTemplateCommentRepository(dataSource);
+    }
+    @Bean
     public BoardService boardService() {
-        return new BoardService(boardRepository(), memberRepository());
+        return new BoardService(boardRepository(), commentRepository(), memberRepository());
     }
     @Bean
     public BoardRepository boardRepository() {
@@ -43,14 +52,6 @@ public class SpringConfig {
     @Bean
     public GlobalExceptionHandler globalExceptionHandler() {
         return new GlobalExceptionHandler();
-    }
-    @Bean
-    public CommentService commentService() {
-        return new CommentService(boardRepository(), commentRepository());
-    }
-    @Bean
-    public CommentRepository commentRepository() {
-        return new JdbcTemplateCommentRepository(dataSource);
     }
 
 }

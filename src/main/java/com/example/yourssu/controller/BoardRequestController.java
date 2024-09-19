@@ -7,6 +7,7 @@ import com.example.yourssu.dto.MemberResponse;
 import com.example.yourssu.service.BoardService;
 import com.example.yourssu.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,7 +18,7 @@ public class BoardRequestController {
     @Autowired
     private BoardService boardService;
 
-    @PostMapping("/register/create")
+    @PostMapping("/create")
     public ResponseEntity<BoardResponse> registerBoard(@RequestBody BoardRequest userRequest) {
         BoardResponse userResponse = boardService.registerBoardCreate(userRequest);
         return ResponseEntity.ok(userResponse);
@@ -28,15 +29,16 @@ public class BoardRequestController {
         BoardResponse updatedBoard = boardService.updateBoard(id, boardRequest);
         return ResponseEntity.ok(updatedBoard);
     }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<BoardResponse> deleteBoard(
+            @PathVariable("id") Long boardId,
+            @RequestBody BoardRequest boardRequest) {
 
-//    @DeleteMapping("/{id}")
-//    public ResponseEntity<Void> deleteBoard(
-//            @PathVariable Long id,
-//            @RequestBody DeleteRequest request) {
-//
-//        // 게시글 및 댓글 삭제 로직 호출
-//        boardService.deleteBoard(id, request.getEmail(), request.getPassword());
-//
-//        return ResponseEntity.ok().build();  // 성공적으로 삭제되면 200 OK 반환
-//    }
+        // 요청에서 받은 email과 password를 사용
+        String email = boardRequest.getEmail();
+        String password = boardRequest.getPassword();
+
+        BoardResponse response = boardService.deleteBoard(boardId, email, password);
+        return ResponseEntity.ok(response);
+    }
 }

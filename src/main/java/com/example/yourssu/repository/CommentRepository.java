@@ -12,5 +12,7 @@ public interface CommentRepository {
     List<Comment> findByBoardId(Long boardId);
     List<Comment> findAll();
     Optional<Comment> findById(Long id);
+    void deleteByBoardId(Long boardId);
     void clearStore();
+    void deleteById(Long id);
 }

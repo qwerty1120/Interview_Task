@@ -78,6 +78,12 @@ public class JdbcTemplateBoardRepository implements BoardRepository{
     }
 
     @Override
+    public void deleteById(Long id) {
+        String sql = "DELETE FROM board WHERE id = ?";
+        jdbcTemplate.update(sql, id);
+    }
+
+    @Override
     public void clearStore() {
 
     }

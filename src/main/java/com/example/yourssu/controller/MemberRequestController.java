@@ -14,9 +14,18 @@ public class MemberRequestController {
     @Autowired
     private MemberService memberService;
 
-    @PostMapping("/register")
+    @PostMapping("/new")
     public ResponseEntity<MemberResponse> registerMember(@RequestBody MemberRequest userRequest) {
         MemberResponse userResponse = memberService.registerMember(userRequest);
         return ResponseEntity.ok(userResponse);
+    }
+
+    @DeleteMapping("/delete")
+    public ResponseEntity<Void> deleteMember(
+            @RequestBody MemberRequest request) {
+        String email = request.getEmail();
+        String password = request.getPassword();
+        memberService.deleteMember(email, password);
+        return ResponseEntity.noContent().build();  // 204 No Content
     }
 }

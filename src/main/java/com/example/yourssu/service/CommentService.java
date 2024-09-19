@@ -29,10 +29,6 @@ public class CommentService {
         if (request.getEmail() == null || request.getPassword() == null) {
             throw new IllegalArgumentException("Email and password must be provided");
         }
-//        // 작성자 인증 (이메일, 비밀번호 확인)
-//        if (!passwordEncoder.matches(request.getPassword(), board.getPassword())) {
-//            throw new IllegalStateException("Invalid credentials.");
-//        }
 
         // 댓글 내용 확인 ("" 또는 null 체크)
         if (request.getContent() == null || request.getContent().trim().isEmpty()) {
@@ -55,12 +51,13 @@ public class CommentService {
 
         return response;
     }
-    public CommentResponse updateComment(Long id,CommentRequest commentRequest) {
+    public CommentResponse updateComment(Long id, CommentRequest commentRequest) {
         // 댓글 조회
         Comment comment = commentRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Comment not found"));
         // 댓글 작성자와 요청자의 이메일 비교
-        if (!comment.getEmail().equals(commentRequest.getEmail())) {
+        if (!comment.getEmail().equals(commentRequest.getEmail()) ||
+                !passwordEncoder.matches(commentRequest.getPassword(), comment.getPassword())) {
             throw new IllegalStateException("Not authorized to update this comment");
         }
         // 댓글 내용 검증
@@ -79,5 +76,15 @@ public class CommentService {
         response.setContent(updatedComment.getContent());
 
         return response;
+    }
+
+    public void deleteComment(Long commentId, String email, String password) {
+        Comment comment = commentRepository.findById(commentId)
+                .orElseThrow(() -> new IllegalArgumentException("Comment not found"));
+        if (!comment.getEmail().equals(email) || !passwordEncoder.matches(password, comment.getPassword())) {
+            throw new IllegalStateException("Unauthorized to delete this comment");
+        }
+        // 댓글 삭제
+        commentRepository.deleteById(commentId);
     }
 }

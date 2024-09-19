@@ -51,6 +51,11 @@ public class MemoryBoardRepository implements BoardRepository {
     }
 
     @Override
+    public void deleteById(Long id) {
+        store.remove(id);
+    }
+
+    @Override
     public void clearStore() {
         //store.clear();
     }

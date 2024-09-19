@@ -5,9 +5,12 @@ import com.example.yourssu.domain.Member;
 import com.example.yourssu.dto.BoardResponse;
 import com.example.yourssu.dto.MemberRequest;
 import com.example.yourssu.dto.MemberResponse;
+import com.example.yourssu.repository.BoardRepository;
+import com.example.yourssu.repository.CommentRepository;
 import com.example.yourssu.repository.MemberRepository;
 import com.example.yourssu.repository.MemoryMemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,21 +20,36 @@ import java.util.Optional;
 public class MemberService {
 
     private final MemberRepository memberRepository;
+    private final BoardRepository boardRepository;
+    private final CommentRepository commentRepository;
+    private final BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
-    public MemberService(MemberRepository memberRepository) {
+    public MemberService(MemberRepository memberRepository, BoardRepository boardRepository,
+                         CommentRepository commentRepository, BCryptPasswordEncoder passwordEncoder) {
         this.memberRepository = memberRepository;
-    }
-    //회원가입
-    public Long join(Member member) {
-        //Optional<Member> result = memberRepository.findByName(member.getName());
-        validateDuplicateMember(member);
-        memberRepository.save(member);
-        return member.getId();
+        this.boardRepository = boardRepository;
+        this.commentRepository = commentRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
-    private void validateDuplicateMember(Member member) {
-        memberRepository.findByEmail(member.getEmail())
+    public void deleteMember(String email, String password) {
+        Member member = memberRepository.findByEmail(email)
+                .orElseThrow(() -> new IllegalArgumentException("Member not found"));
+
+        if (!passwordEncoder.matches(password, member.getPassword())) {
+            throw new IllegalStateException("Unauthorized to delete this member");
+        }
+        List<Board> boards = boardRepository.findBoards(email);
+        for (Board board : boards) {
+            commentRepository.deleteByBoardId(board.getId());
+            boardRepository.deleteById(board.getId());
+        }
+        memberRepository.delete(member);
+    }
+
+    private void validateDuplicateMember(String email) {
+        memberRepository.findByEmail(email)
             .ifPresent(m->{
             throw new IllegalStateException("already exists");
         });
@@ -45,6 +63,7 @@ public class MemberService {
     }
 
     public MemberResponse registerMember(MemberRequest memberRequest) {
+        validateDuplicateMember(memberRequest.getEmail());
         // 도메인 모델로 변환 및 저장 로직
         Member member = new Member();
         member.setEmail(memberRequest.getEmail());

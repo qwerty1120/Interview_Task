@@ -29,17 +29,6 @@ public class MemberController {
         return "members/createMemberForm";
     }
 
-    @PostMapping("/members/new")
-    public String create(MemberForm form){
-        Member member = new Member();
-        member.setName(form.getName());
-        member.setEmail(form.getEmail());
-        member.setPassword(form.getPassword());
-        memberService.join(member);
-
-        return "redirect:/";
-    }
-
     @GetMapping("/members")
     public String list(Model model){
         List<Member> members = memberService.findMembers();

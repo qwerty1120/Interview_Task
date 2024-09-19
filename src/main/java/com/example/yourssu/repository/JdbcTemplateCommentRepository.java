@@ -33,8 +33,6 @@ public class JdbcTemplateCommentRepository implements CommentRepository {
         parameters.put("content", comment.getContent());
         parameters.put("boardId", comment.getBoard().getId());
         parameters.put("password", comment.getPassword());
-        //parameters.put("password",encryptPassword(comment.getPassword()));
-        //parameters.put("password",encryptPassword(comment.getBoard().getPassword()));
         Number key = jdbcInsert.executeAndReturnKey(new MapSqlParameterSource(parameters));
         comment.setId(key.longValue());
         return comment;
@@ -59,6 +57,12 @@ public class JdbcTemplateCommentRepository implements CommentRepository {
         return result.stream().findAny();
     }
 
+    @Override
+    public void deleteByBoardId(Long boardId) {
+        String sql = "DELETE FROM comment WHERE board_id = ?";
+        jdbcTemplate.update(sql, boardId);
+    }
+
     private RowMapper<Comment> commentRowMapper() {
         return (rs, rowNum) -> {
             Comment comment = new Comment();
@@ -81,7 +85,11 @@ public class JdbcTemplateCommentRepository implements CommentRepository {
     }
 
     @Override
-    public void clearStore() {
+    public void clearStore() {}
 
+    @Override
+    public void deleteById(Long id) {
+        String sql = "DELETE FROM comment WHERE id = ?";
+        jdbcTemplate.update(sql, id);
     }
 }

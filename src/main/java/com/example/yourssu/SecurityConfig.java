@@ -30,7 +30,7 @@ public class SecurityConfig {
 
     // 비밀번호 암호화를 위한 BCryptPasswordEncoder를 빈으로 등록
     @Bean
-    public PasswordEncoder passwordEncoder() {
+    public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 }

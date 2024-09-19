@@ -20,33 +20,26 @@ import java.util.Optional;
 public class BoardService {
     private final BoardRepository boardRepository;
     private final MemberRepository memberRepository;
-    //private final CommentRepository commentRepository;
+    private final CommentRepository commentRepository;
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     @Autowired
-    public BoardService(BoardRepository boardRepository, MemberRepository memberRepository) {
+    public BoardService(BoardRepository boardRepository, CommentRepository commentRepository,MemberRepository memberRepository) {
         this.boardRepository = boardRepository;
         this.memberRepository = memberRepository;
-        //this.commentRepository = commentRepository;
+        this.commentRepository = commentRepository;
     }
 
-    //게시하기
-    public Long posting(Board board) {
-        validateDuplicateBoard(board);
-        validateDuplicateMemberEmail(board);
-        boardRepository.save(board);
-        return board.getId();
-    }
-    public void validateDuplicateMemberEmail(Board board) {
-        boolean emailExists = memberRepository.findByEmail(board.getEmail()).isPresent();
+    public void validateDuplicateMemberEmail(String email) {
+        boolean emailExists = memberRepository.findByEmail(email).isPresent();
         if (!emailExists) {
-            throw new IllegalStateException("No member with email: " + board.getEmail());
+            throw new IllegalStateException("No member with email: " + email);
         }
     }
-    private void validateDuplicateBoard(Board board) {
-        List<Board> boards = boardRepository.findBoards(board.getEmail());
+    private void validateDuplicateBoard(String email, String title) {
+        List<Board> boards = boardRepository.findBoards(email);
         boolean isDuplicate = boards.stream()
-                .anyMatch(existingBoard -> existingBoard.getTitle().equals(board.getTitle())); // 제목이 같은지 확인
+                .anyMatch(existingBoard -> existingBoard.getTitle().equals(title)); // 제목이 같은지 확인
 
         // 중복된 게시물이 있으면 예외 던지기
         if (isDuplicate) {
@@ -68,6 +61,8 @@ public class BoardService {
         return boardRepository.findById(id);
     }
     public BoardResponse registerBoardCreate(BoardRequest boardRequest) {
+        validateDuplicateMemberEmail(boardRequest.getEmail());
+        validateDuplicateBoard(boardRequest.getEmail(), boardRequest.getTitle());
         // 도메인 모델로 변환 및 저장 로직
         Board board = new Board();
         board.setEmail(boardRequest.getEmail());
@@ -117,5 +112,26 @@ public class BoardService {
 
         return response;
     }
+    public BoardResponse deleteBoard(Long boardId, String email, String password) {
+        Board board = boardRepository.findById(boardId)
+                .orElseThrow(() -> new IllegalArgumentException("Board not found"));
 
+        // Check if the provided email and password match the board's owner
+        if (!board.getEmail().equals(email) || !passwordEncoder.matches(password, board.getPassword())) {
+            throw new IllegalStateException("Unauthorized to delete this board");
+        }
+
+        // Delete all comments associated with the board
+        commentRepository.deleteByBoardId(boardId);
+
+        // Delete the board
+        boardRepository.deleteById(boardId);
+        BoardResponse response = new BoardResponse();
+        response.setArticleId(board.getId());
+        response.setEmail(board.getEmail());
+        response.setTitle(board.getTitle());
+        response.setContent("This board has been deleted.");
+
+        return response;
+    }
 }

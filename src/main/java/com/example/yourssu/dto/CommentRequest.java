@@ -9,6 +9,8 @@ public class CommentRequest {
     @NotBlank(message = "password cannot be blank")
     private String password;
 
+    public CommentRequest() {}
+
     public String getContent() {
         return content;
     }

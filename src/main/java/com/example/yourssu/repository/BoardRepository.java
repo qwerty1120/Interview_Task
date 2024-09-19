@@ -12,5 +12,6 @@ public interface BoardRepository {
     List<Board> findAll();
     List<Board> findByTitle(String Title);
     Optional<Board> findById(Long id);
+    void deleteById(Long id);
     void clearStore();
 }

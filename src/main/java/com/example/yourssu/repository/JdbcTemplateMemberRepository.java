@@ -80,4 +80,10 @@ public class JdbcTemplateMemberRepository implements MemberRepository {
     public void clearStore() {
 
     }
+
+    @Override
+    public void delete(Member member) {
+        String sql = "DELETE FROM member WHERE email = ?";
+        jdbcTemplate.update(sql, member.getEmail());
+    }
 }

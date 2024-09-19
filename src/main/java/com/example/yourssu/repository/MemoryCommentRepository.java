@@ -5,6 +5,7 @@ import com.example.yourssu.domain.Comment;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class MemoryCommentRepository implements CommentRepository {
     private static Map<Long, Comment> store = new HashMap<>();
@@ -38,7 +39,24 @@ public class MemoryCommentRepository implements CommentRepository {
     }
 
     @Override
+    public void deleteByBoardId(Long boardId) {
+        List<Long> idsToRemove = store.values().stream()
+                .filter(comment -> comment.getBoard().getId().equals(boardId))
+                .map(Comment::getId)
+                .collect(Collectors.toList());
+
+        for (Long id : idsToRemove) {
+            store.remove(id);
+        }
+    }
+
+    @Override
     public void clearStore() {
-        //store.clear();
+        store.clear();
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        store.remove(id);
     }
 }
