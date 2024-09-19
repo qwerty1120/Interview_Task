@@ -36,10 +36,10 @@ public class BoardController {
     public String getBoardById(@PathVariable Long id, Model model) {
         Optional<Board> board = boardService.findById(id);
         if (board.isPresent()) {
-            model.addAttribute("board", board.get());  // board 객체를 모델에 추가
-            return "boards/boardDetail";  // boardDetails.html로 이동
+            model.addAttribute("board", board.get());
+            return "boards/boardDetail";
         } else {
-            return "error/404";  // 게시물을 찾지 못했을 때 404 에러 페이지로 이동
+            return "error/404";
         }
     }
 }

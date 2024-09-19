@@ -4,8 +4,6 @@ public class MemberResponse {
     private String email;
     private String username;
 
-    // Getters and Setters
-
     public String getEmail() {
         return email;
     }

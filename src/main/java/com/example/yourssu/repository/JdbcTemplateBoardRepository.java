@@ -37,7 +37,6 @@ public class JdbcTemplateBoardRepository implements BoardRepository {
     }
 
     private String encryptPassword(String password) {
-        // 비밀번호 암호화 (예: BCryptPasswordEncoder 사용)
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         return passwordEncoder.encode(password);
     }
@@ -75,7 +74,6 @@ public class JdbcTemplateBoardRepository implements BoardRepository {
     public Optional<Board> findById(Long id) {
         String sql = "SELECT * FROM board WHERE id = ?";
 
-        // RowMapper를 사용하여 결과를 Board 객체로 변환
         return jdbcTemplate.query(sql, new Object[]{id}, boardRowMapper())
                 .stream()
                 .findFirst();  // 결과 리스트에서 첫 번째 요소를 Optional로 변환

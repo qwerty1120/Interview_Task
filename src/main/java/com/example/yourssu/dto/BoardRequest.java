@@ -6,8 +6,7 @@ public class BoardRequest {
     private String title;
     private String content;
 
-    public BoardRequest() {
-    }
+    public BoardRequest() {}
 
     public String getEmail() {
         return email;

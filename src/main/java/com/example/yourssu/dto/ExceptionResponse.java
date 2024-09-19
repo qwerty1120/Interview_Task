@@ -6,7 +6,6 @@ public class ExceptionResponse {
     private String message;
     private String requestURI;
 
-    // Constructors
     public ExceptionResponse(String time, String status, String message, String requestURI) {
         this.time = time;
         this.status = status;
@@ -14,7 +13,6 @@ public class ExceptionResponse {
         this.requestURI = requestURI;
     }
 
-    // Getters and Setters
     public String getTime() {
         return time;
     }

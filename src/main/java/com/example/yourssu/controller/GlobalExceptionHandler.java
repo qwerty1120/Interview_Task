@@ -22,7 +22,7 @@ public class GlobalExceptionHandler {
                 LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME),
                 "BAD_REQUEST",
                 ex.getMessage(),
-                request.getDescription(false) // 요청 URI를 포함하는 메서드
+                request.getDescription(false)
         );
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }

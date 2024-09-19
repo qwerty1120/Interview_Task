@@ -5,7 +5,6 @@ public class MemberRequest {
     private String username;
     private String password;
 
-    // Getters and Setters
     public MemberRequest() {
     }
 

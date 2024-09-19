@@ -26,6 +26,6 @@ public class MemberRequestController {
         String email = request.getEmail();
         String password = request.getPassword();
         memberService.deleteMember(email, password);
-        return ResponseEntity.noContent().build();  // 204 No Content
+        return ResponseEntity.noContent().build();
     }
 }

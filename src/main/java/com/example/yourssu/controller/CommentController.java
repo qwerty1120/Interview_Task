@@ -27,7 +27,6 @@ public class CommentController {
     @PutMapping("/{boardId}/comments/{commentId}")
     public ResponseEntity<CommentResponse> updateComment(
             @PathVariable Long commentId,
-            //@PathVariable Long boardId,
             @RequestBody @Valid CommentRequest commentRequest) {
 
         CommentResponse updatedComment = commentService.updateComment(commentId, commentRequest);
@@ -47,6 +46,6 @@ public class CommentController {
         String email = request.getEmail();
         String password = request.getPassword();
         commentService.deleteComment(commentId, email, password);
-        return ResponseEntity.noContent().build(); // 204 No Content 응답
+        return ResponseEntity.noContent().build();
     }
 }

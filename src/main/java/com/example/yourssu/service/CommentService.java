@@ -29,7 +29,7 @@ public class CommentService {
             throw new IllegalArgumentException("Email and password must be provided");
         }
 
-        // 댓글 내용 확인 ("" 또는 null 체크)
+        //null 체크
         if (request.getContent() == null || request.getContent().trim().isEmpty()) {
             throw new IllegalArgumentException("Comment content cannot be empty or null.");
         }
@@ -42,7 +42,6 @@ public class CommentService {
         comment.setPassword(passwordEncoder.encode(request.getPassword()));
         Comment savedComment = commentRepository.save(comment);
 
-        // 응답 생성
         CommentResponse response = new CommentResponse();
         response.setCommentId(savedComment.getId());
         response.setEmail(savedComment.getEmail());
@@ -60,16 +59,16 @@ public class CommentService {
                 !passwordEncoder.matches(commentRequest.getPassword(), comment.getPassword())) {
             throw new IllegalStateException("Not authorized to update this comment");
         }
-        // 댓글 내용 검증
+
         if (commentRequest.getContent() == null || commentRequest.getContent().trim().isEmpty()) {
             throw new IllegalArgumentException("Content cannot be null or empty");
         }
-        // 댓글 수정
+        //댓글 수정
         comment.setContent(commentRequest.getContent());
         comment.setPassword(passwordEncoder.encode(commentRequest.getPassword()));
         Comment updatedComment = commentRepository.save(comment);
 
-        // Response 생성
+        //Response
         CommentResponse response = new CommentResponse();
         response.setCommentId(updatedComment.getId());
         response.setEmail(updatedComment.getEmail());
@@ -84,7 +83,7 @@ public class CommentService {
         if (!comment.getEmail().equals(email) || !passwordEncoder.matches(password, comment.getPassword())) {
             throw new IllegalStateException("Unauthorized to delete this comment");
         }
-        // 댓글 삭제
+
         commentRepository.deleteById(commentId);
     }
 }

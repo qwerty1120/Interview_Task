@@ -31,7 +31,7 @@ public class BoardRequestController {
             @PathVariable("id") Long boardId,
             @RequestBody BoardRequest boardRequest) {
 
-        // 요청에서 받은 email과 password를 사용
+        //요청에서 받은 email과 password를 사용
         String email = boardRequest.getEmail();
         String password = boardRequest.getPassword();
 
