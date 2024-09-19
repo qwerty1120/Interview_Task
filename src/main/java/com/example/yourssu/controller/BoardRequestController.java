@@ -29,14 +29,14 @@ public class BoardRequestController {
         return ResponseEntity.ok(updatedBoard);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteBoard(
-            @PathVariable Long id,
-            @RequestBody DeleteRequest request) {
-
-        // 게시글 및 댓글 삭제 로직 호출
-        boardService.deleteBoard(id, request.getEmail(), request.getPassword());
-
-        return ResponseEntity.ok().build();  // 성공적으로 삭제되면 200 OK 반환
-    }
+//    @DeleteMapping("/{id}")
+//    public ResponseEntity<Void> deleteBoard(
+//            @PathVariable Long id,
+//            @RequestBody DeleteRequest request) {
+//
+//        // 게시글 및 댓글 삭제 로직 호출
+//        boardService.deleteBoard(id, request.getEmail(), request.getPassword());
+//
+//        return ResponseEntity.ok().build();  // 성공적으로 삭제되면 200 OK 반환
+//    }
 }

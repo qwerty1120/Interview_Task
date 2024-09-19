@@ -52,6 +52,6 @@ public class MemoryBoardRepository implements BoardRepository {
 
     @Override
     public void clearStore() {
-        store.clear();
+        //store.clear();
     }
 }

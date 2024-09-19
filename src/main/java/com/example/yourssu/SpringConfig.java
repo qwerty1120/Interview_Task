@@ -4,6 +4,7 @@ package com.example.yourssu;
 import com.example.yourssu.controller.GlobalExceptionHandler;
 import com.example.yourssu.repository.*;
 import com.example.yourssu.service.BoardService;
+import com.example.yourssu.service.CommentService;
 import com.example.yourssu.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -42,6 +43,14 @@ public class SpringConfig {
     @Bean
     public GlobalExceptionHandler globalExceptionHandler() {
         return new GlobalExceptionHandler();
+    }
+    @Bean
+    public CommentService commentService() {
+        return new CommentService(boardRepository(), commentRepository());
+    }
+    @Bean
+    public CommentRepository commentRepository() {
+        return new JdbcTemplateCommentRepository(dataSource);
     }
 
 }
