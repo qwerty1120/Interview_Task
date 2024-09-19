@@ -7,6 +7,7 @@ import com.example.yourssu.dto.BoardResponse;
 import com.example.yourssu.dto.MemberRequest;
 import com.example.yourssu.dto.MemberResponse;
 import com.example.yourssu.repository.BoardRepository;
+import com.example.yourssu.repository.CommentRepository;
 import com.example.yourssu.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -19,12 +20,14 @@ import java.util.Optional;
 public class BoardService {
     private final BoardRepository boardRepository;
     private final MemberRepository memberRepository;
+    //private final CommentRepository commentRepository;
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     @Autowired
     public BoardService(BoardRepository boardRepository, MemberRepository memberRepository) {
         this.boardRepository = boardRepository;
         this.memberRepository = memberRepository;
+        //this.commentRepository = commentRepository;
     }
 
     //게시하기
@@ -82,6 +85,37 @@ public class BoardService {
         boardResponse.setContent(savedBoard.getContent());
 
         return boardResponse;
+    }
+    public BoardResponse updateBoard(Long id, BoardRequest boardRequest) {
+        // 게시물 조회
+        Optional<Board> boardOptional = boardRepository.findById(id);
+        Board board = boardOptional.orElseThrow(() -> new IllegalStateException("Board not found"));
+
+        // 본인의 게시물인지 확인
+        if (!board.getEmail().equals(boardRequest.getEmail()) ||
+                !passwordEncoder.matches(boardRequest.getPassword(), board.getPassword())) {
+            throw new IllegalStateException("You are not authorized to edit this post");
+        }
+
+        // title과 content가 유효한지 확인
+        if (boardRequest.getTitle() == null || boardRequest.getTitle().trim().isEmpty() ||
+                boardRequest.getContent() == null || boardRequest.getContent().trim().isEmpty()) {
+            throw new IllegalArgumentException("Title and content cannot be empty or null");
+        }
+
+        // 게시물 수정
+        board.setTitle(boardRequest.getTitle());
+        board.setContent(boardRequest.getContent());
+        boardRepository.save(board);
+
+        // 수정된 게시물 응답 생성
+        BoardResponse response = new BoardResponse();
+        response.setArticleId(board.getId());
+        response.setEmail(board.getEmail());
+        response.setTitle(board.getTitle());
+        response.setContent(board.getContent());
+
+        return response;
     }
 
 }
